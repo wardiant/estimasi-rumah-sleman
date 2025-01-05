@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estimasi Harga Rumah</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #444;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin: 10px 0 5px;
+            font-weight: bold;
+        }
+        input[type="number"], select {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            font-size: 16px;
+            width: 100%;
+        }
+        select {
+            background-color: white;
+            -webkit-appearance: none; /* Hapus default browser style */
+            -moz-appearance: none;
+            appearance: none;
+            padding-right: 30px; /* Tambahkan ruang untuk panah dropdown */
+        }
+        select:focus {
+            border-color: #28a745;
+            outline: none;
+        }
+        button {
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .result {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 20px;
+            color: #007bff;
+        }
+    </style>    
+</head>
+<body>
+    <div class="container">
+        <h1>Estimasi Harga Rumah Wilayah Sleman</h1>
+        <form action="/predict" method="POST">
+            <label for="bed">Jumlah Kamar Tidur:</label>
+            <input type="number" id="bed" name="bed" placeholder="Contoh: 3" required>
+
+            <label for="bath">Jumlah Kamar Mandi:</label>
+            <input type="number" id="bath" name="bath" placeholder="Contoh: 2" required>
+
+            <label for="carport">Jumlah Carport:</label>
+            <input type="number" id="carport" name="carport" placeholder="Contoh: 1" required>
+
+            <label for="surface_area">Luas Tanah (m²):</label>
+            <input type="number" id="surface_area" name="surface_area" placeholder="Contoh: 120" required>
+
+            <label for="building_area">Luas Bangunan (m²):</label>
+            <input type="number" id="building_area" name="building_area" placeholder="Contoh: 90" required>
+
+            <label for="location_encoded">Pilih Lokasi:</label>
+            <select id="location_encoded" name="location_encoded" required>
+                <option value="" disabled selected>Pilih Lokasi</option>
+                <option value="0">Berbah, Sleman</option>
+                <option value="1">Depok, Sleman</option>
+                <option value="2">Gamping, Sleman</option>
+                <option value="3">Godean, Sleman</option>
+                <option value="4">Kalasan, Sleman</option>
+                <option value="5">Minggir, Sleman</option>
+                <option value="6">Mlati, Sleman</option>
+                <option value="7">Moyudan, Sleman</option>
+                <option value="8">Ngaglik, Sleman</option>
+                <option value="9">Ngemplak, Sleman</option>
+                <option value="10">Pakem, Sleman</option>
+                <option value="11">Prambanan, Sleman</option>
+                <option value="12">Sayegan, Sleman</option>
+                <option value="13">Sleman, Sleman</option>
+                <option value="14">Tempel, Sleman</option>
+                <option value="15">Turi, Sleman</option>
+            </select>
+
+            <button type="submit">Estimasi Harga</button>
+        </form>
+
+        {% if prediction_text %}
+            <div class="result">
+                {{ prediction_text }}
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
