@@ -1,7 +1,6 @@
 flask
 numpy
 scikit-learn
-pickle5
 matplotlib
 pandas
 seaborn
