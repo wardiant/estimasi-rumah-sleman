@@ -1,45 +1,29 @@
-from flask import Flask, request, render_template
+import streamlit as st
 import pickle
 import numpy as np
-import streamlit as st
-
-# Inisialisasi aplikasi Flask
-app = Flask(__name__)
 
 # Muat model yang sudah disimpan (sesuaikan nama file model)
 model = pickle.load(open('estimasi_rumah.sav', 'rb'))
 
-# Halaman utama
-@app.route('/')
-def home():
-    return render_template('index.html')
+# Judul aplikasi
+st.title("Estimasi Harga Rumah")
 
-# Endpoint untuk prediksi
-@app.route('/predict', methods=['POST'])
-def predict():
-    if request.method == 'POST':
-        # Ambil data input dari form
-        bed = int(request.form['bed'])
-        bath = int(request.form['bath'])
-        carport = int(request.form['carport'])
-        surface_area = int(request.form['surface_area'])
-        building_area = int(request.form['building_area'])
-        location_encoded = int(request.form['location_encoded'])
-        
-        # Masukkan data ke dalam array
-        features = np.array([[bed, bath, carport, surface_area, building_area, 
-                            location_encoded]])
+# Form input untuk data
+st.header("Masukkan Detail Rumah")
+bed = st.number_input("Jumlah Kamar Tidur", min_value=0, step=1)
+bath = st.number_input("Jumlah Kamar Mandi", min_value=0, step=1)
+carport = st.number_input("Jumlah Carport", min_value=0, step=1)
+surface_area = st.number_input("Luas Tanah (m²)", min_value=0, step=1)
+building_area = st.number_input("Luas Bangunan (m²)", min_value=0, step=1)
+location_encoded = st.selectbox("Lokasi Rumah (Encoded)", options=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15])  # Sesuaikan pilihan lokasi jika diperlukan
 
-        # Prediksi harga
-        predicted_price = model.predict(features)[0]
-
-        # Tampilkan hasil
-        return render_template('index.html', 
-                               prediction_text=f"Estimasi Harga Rumah: Rp {predicted_price:,.0f}")
-    else:
-        return render_template('index.html')
-
-if __name__ == "__main__":
-    app.run(debug=True)
-
-
+# Tombol untuk memprediksi harga
+if st.button("Prediksi Harga"):
+    # Masukkan data ke dalam array
+    features = np.array([[bed, bath, carport, surface_area, building_area, location_encoded]])
+    
+    # Lakukan prediksi harga
+    predicted_price = model.predict(features)[0]
+    
+    # Tampilkan hasil prediksi
+    st.success(f"Estimasi Harga Rumah: Rp {predicted_price:,.0f}")
