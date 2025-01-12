@@ -1,6 +1,7 @@
 from flask import Flask, request, render_template
 import pickle
 import numpy as np
+import streamlit as st
 
 # Inisialisasi aplikasi Flask
 app = Flask(__name__)
@@ -37,5 +38,8 @@ def predict():
                                prediction_text=f"Estimasi Harga Rumah: Rp {predicted_price:,.0f}")
     else:
         return render_template('index.html')
+
+if __name__ == "__main__":
+    app.run(debug=True)
 
 
