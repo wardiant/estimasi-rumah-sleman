@@ -5,6 +5,26 @@ import numpy as np
 # Muat model yang sudah disimpan (sesuaikan nama file model)
 model = pickle.load(open('estimasi_rumah.sav', 'rb'))
 
+# Dictionary untuk lokasi dengan value numerik
+locations = {
+    "Berbah, Sleman": 0,
+    "Depok, Sleman": 1,
+    "Gamping, Sleman": 2,
+    "Godean, Sleman": 3,
+    "Kalasan, Sleman": 4,
+    "Minggir, Sleman": 5,
+    "Mlati, Sleman": 6,
+    "Moyudan, Sleman": 7,
+    "Ngaglik, Sleman": 8,
+    "Ngemplak, Sleman": 9,
+    "Pakem, Sleman": 10,
+    "Prambanan, Sleman": 11,
+    "Sayegan, Sleman": 12,
+    "Sleman, Sleman": 13,
+    "Tempel, Sleman": 14,
+    "Turi, Sleman": 15,
+}
+
 # Judul aplikasi
 st.title("Estimasi Harga Rumah")
 
@@ -15,7 +35,9 @@ bath = st.number_input("Jumlah Kamar Mandi", min_value=0, step=1)
 carport = st.number_input("Jumlah Carport", min_value=0, step=1)
 surface_area = st.number_input("Luas Tanah (m²)", min_value=0, step=1)
 building_area = st.number_input("Luas Bangunan (m²)", min_value=0, step=1)
-location_encoded = st.selectbox("Lokasi Rumah (Encoded)", options=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15])  # Sesuaikan pilihan lokasi jika diperlukan
+# Dropdown untuk memilih lokasi
+location_name = st.selectbox("Pilih Lokasi", options=list(locations.keys()))
+location_encoded = locations[location_name]
 
 # Tombol untuk memprediksi harga
 if st.button("Prediksi Harga"):
